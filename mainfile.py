@@ -9,6 +9,10 @@ import os,sys
 import locale
 import random
 import socket
+import struct 
+import hashlib
+import socket
+
 from datetime import datetime,timedelta,timezone#first datetime is a module 2nd is class
 from collections import namedtuple,deque,defaultdict,OrderedDict,Counter
 from xml.parsers.expat import ParserCreate
@@ -739,6 +743,51 @@ def image_test():
         draw.text((40*t+random.randint(35,45),10),rndchr(),font = font1,fill = rnd_color2())
     #image1 = image1.filter(ImageFilter.BLUR)    
     image1.save('code.jpg','jpeg')        
+
+
+def struct_test():
+    with open('./ddd.jpg','rb') as f:
+        b=f.read(16)
+
+    print(b)
+    print(struct.unpack('<ccHHBBBBIH',b))
+def hashlib_test():
+    ll={'dd':'12fdfdf'}
+    #md5 128位 32位16进制字符表示
+    md1 = hashlib.md5()
+    md2 = hashlib.md5()
+    #update将内容附加在后面，而不是替换内容
+    md1.update('123456'.encode('utf-8'))
+    ll['bob']=md5.hexdigest()
+    md1.update('123456'.encode('utf-8'))
+    print(md5.hexdigest())
+    md2.update('123456123456'.encode('utf-8'))
+    print('123456123456 md5:',md5.hexdigest())
+    print('dict value:',ll)
+
+def socket_test():
+    #AF_INET 指的事IPv4协议 AF_INET6为IPv6协议
+    s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    s.connect(('www.189.cn',80))
+    s.send(b'GET / HTTP/1.1\r\nHost: www.189.cn\r\nConnection: close\r\n\r\n')
+    buffer = []
+    while True:
+        d = s.recv(1024)
+        if d:
+            buffer.append(d)
+        else:
+            break
+    data = b''.join(buffer)
+    s.close()
+    header, html = data.split(b'\r\n\r\n', 1)
+    print(header.decode('utf-8'))
+    # 把接收的数据写入文件:
+    with open('189.html', 'wb') as f:
+        f.write(html)
+
+
+
+
     
 if __name__ == "__main__":
     #print_input()
@@ -758,5 +807,6 @@ if __name__ == "__main__":
     #xml_test()
     #HTMLParser_Test()
     #urllib_test()
-    image_test()
-   
+    #image_test()
+    #hashlib_test()
+    socket_test()

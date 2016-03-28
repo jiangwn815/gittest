@@ -785,7 +785,21 @@ def socket_test():
     with open('189.html', 'wb') as f:
         f.write(html)
 
-
+def server_test():
+    s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    s.bind(('127.0.0.1',9999))
+    s.listen(5)#最大连接数
+    print('Waiting')
+    
+    while True:
+        sock,addr = s.accept()
+        
+        t = threading.Thread(target=tcplink,args=(sock,addr))
+        t.start()
+        
+def tcplink(sock,addr):
+    print("Accept a new connection from %s:%s...." % addr)
+    sock.send(b"Welcome")
 
 
     

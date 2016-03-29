@@ -12,6 +12,8 @@ import socket
 import struct 
 import hashlib
 import socket
+import threading
+import time
 
 from datetime import datetime,timedelta,timezone#first datetime is a module 2nd is class
 from collections import namedtuple,deque,defaultdict,OrderedDict,Counter
@@ -800,6 +802,14 @@ def server_test():
 def tcplink(sock,addr):
     print("Accept a new connection from %s:%s...." % addr)
     sock.send(b"Welcome")
+    while True:
+        data = sock.recv(1024)
+        time.sleep(1)
+        if not data or data.decode('utf-8') == 'exit':
+            break
+        sock.send(('Hello,%s' % data.decode('utf-8')).encode('utf-8'))
+    sock.close()
+    print("Connection from %s:%s closed." % addr)
 
 
     
@@ -823,4 +833,5 @@ if __name__ == "__main__":
     #urllib_test()
     #image_test()
     #hashlib_test()
-    socket_test()
+    #socket_test()
+    server_test()

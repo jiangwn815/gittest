@@ -14,6 +14,9 @@ import hashlib
 import socket
 import threading
 import time
+import mysql.connector
+from wsgiref.simple_server import make_server
+from hello import application
 
 from datetime import datetime,timedelta,timezone#first datetime is a module 2nd is class
 from collections import namedtuple,deque,defaultdict,OrderedDict,Counter
@@ -810,7 +813,12 @@ def tcplink(sock,addr):
         sock.send(('Hello,%s' % data.decode('utf-8')).encode('utf-8'))
     sock.close()
     print("Connection from %s:%s closed." % addr)
-
+#WSGI：Web Server Gateway Interface
+def wsgi_test():
+    httpd = make_server('', 8000, application)
+    print('Serving HTTP on port 8000...')
+    # 开始监听HTTP请求:
+    httpd.serve_forever()
 
     
 if __name__ == "__main__":
@@ -834,4 +842,5 @@ if __name__ == "__main__":
     #image_test()
     #hashlib_test()
     #socket_test()
-    server_test()
+    #server_test()
+    wsgi_test()

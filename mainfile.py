@@ -27,6 +27,7 @@ from urllib import request
 from PIL import Image,ImageFilter,ImageFont,ImageDraw
 
 def print_input():
+    #print(*objects, sep=' ', end='\n', file=sys.stdout, flush=False)原形
     name = input("Enter your name> ")
     print("Hello ",name)
     print("Wow it is","so cool")

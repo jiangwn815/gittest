@@ -17,7 +17,7 @@ import time
 import mysql.connector
 from wsgiref.simple_server import make_server
 from hello import application
-
+from math import pi
 from datetime import datetime,timedelta,timezone#first datetime is a module 2nd is class
 from collections import namedtuple,deque,defaultdict,OrderedDict,Counter
 from xml.parsers.expat import ParserCreate
@@ -85,6 +85,7 @@ def encode_string():
 def list_tuple():
 
     list_classmate = ["JWN","JXF","FXX","YWH","嘟嘟","趴趴","咩咩","旺旺","喵喵"]
+    list_classmate2 = ["小明","小花","鸣人","佐助"]
     print(list_classmate)
     print(list_classmate[0])
     print(list_classmate[2])
@@ -99,27 +100,44 @@ def list_tuple():
     print("list before replace",list_classmate)
     list_classmate[0] = "蒋伟男"
     print("list after replace",list_classmate)
+    list_classmate.insert(2,"插入第二个")#不返回值
+    print("List after insert",list_classmate)
+    list_classmate.reverse()#调换list中的顺序，不返回值
+    print('Reverse list',list_classmate)
+    print("Count of element in the list",list_classmate.count('FXX'))
+    
     list_classmate.append(123)
     list_classmate.append(True)
     list_classmate.append([555,"adfds",False])#此时计算list_classmate的长度，新加入的list也只认为是一个元素
     print("list可包含不同类型的数据",list_classmate)
+    list_classmate[len(list_classmate):] = list_classmate2
+    print("Concatenate two lists:",list_classmate)
+    del list_classmate[2:4]
+    print('Del [2:4]',list_classmate)
     #list存储数据时，按索引访问元素很快，但是插入和删除元素就很慢了，因为list是线性存储，数据量大的时候，插入和删除效率很低。
     
     #deque是为了高效实现插入和删除操作的双向列表，适合用于队列和栈：
     dq = deque(list_classmate)
-    print('\n\n\ndeque:',dq)
+    print('\n\n\ndeque:',dq,'\tfirst one:',dq[0])
     dq.append('X-man')
     print('deque:',dq)
     dq.appendleft('Superman')
     print('deque:',dq)
+    
+    print('popleft like a queue:',dq.popleft())
+    print('\n\nlist comprehension',[(x,y) for x in [1,2,3] for y in [2,3,4] if x!=y])#从左到右为外-内循环
+    print('list comprehension',[str(round(pi,i)) for i in range(1,6)])
+    print('list comprehension-map func',list(map(lambda x:x**2,range(10))),end='\n\n\n')
     
     
     L = [
     ['Apple', 'Google', 'Microsoft'],
     ['Java', 'Python', 'Ruby', 'PHP'],
     ['Adam', 'Bart', 'Lisa']]
-    print(L)
+    print('A list of lists',L)
     print("L[1][1]:",L[1][1])
+    print('Every element in ll',[element for num in L for element in num])
+    print('Nested list comprehension',[[row[i] for row in L] for i in range(0,3)])
     
     tuple_classmate = (list_classmate)
     print("\n\ntuple_classmate = (list_classmate):",type(tuple_classmate))
@@ -826,7 +844,7 @@ if __name__ == "__main__":
     #print_input()
     #data_type_var()
     #encode_string()
-    #list_tuple()
+    list_tuple()
     #condition_test()
     #dic_set()
     #func_test()
@@ -844,4 +862,4 @@ if __name__ == "__main__":
     #hashlib_test()
     #socket_test()
     #server_test()
-    wsgi_test()
+    #wsgi_test()
